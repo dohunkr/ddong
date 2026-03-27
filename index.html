@@ -15,6 +15,7 @@
   body{background:var(--bg);color:var(--text);font-family:'Jua',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden;background-image:radial-gradient(ellipse at 20% 20%,#3d1a0033 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,#2d0d0033 0%,transparent 60%);}
   h1{font-family:'Black Han Sans',sans-serif;font-size:clamp(2rem,6vw,3.5rem);color:var(--gold);text-shadow:0 0 30px #ffd70088,3px 3px 0 #8B4513;margin:20px 0 5px;letter-spacing:2px;}
   .subtitle{font-size:.9rem;color:var(--brown3);margin-bottom:10px;}
+  .credits{font-size:.8rem;color:var(--brown3);margin-bottom:10px;text-align:center;}
 
   /* TABS */
   .main-tabs{display:flex;gap:8px;margin-bottom:12px;width:100%;max-width:900px;padding:0 12px;}
@@ -214,6 +215,7 @@
 
 <h1>💩 똥 키우기</h1>
 <p class="subtitle">클릭해서 똥을 키워라!</p>
+<div class="credits">제작자: 박정민<br>개발자: 도헌</div>
 <div id="save-ind" style="font-size:.75rem;color:#4caf50;opacity:0;transition:opacity .4s;margin-bottom:6px;font-family:'Jua',sans-serif;">💾 저장됨</div>
 
 <div class="main-tabs">
@@ -547,7 +549,7 @@ function selectStage(idx){
 
 function stopBattle(){clearInterval(battle.enemyTimer);clearInterval(battle.autoAtkTimer);battle.active=false;}
 
-function battleAttack(e){if(!battle.active||battle.result)return;doPlayerAttack(e,false);}
+function battleAttack(e){if(!battle.active||battle.result)return;playBeep(880, 300);doPlayerAttack(e,false);}
 
 function doPlayerAttack(e,isAuto){
   const atk=getBattleAtk();
@@ -888,6 +890,7 @@ function applyGemEffects(){
 }
 
 function clickDdong(e){
+  playBeep(660, 150);
   let gain=Math.floor(state.clickPower);
   const comboLvl=state.gemUpgrades['g_combo']||0;
   if(comboLvl>0){
@@ -1158,13 +1161,63 @@ async function save(){
   }catch(e){try{localStorage.setItem('ddong-save',JSON.stringify(state));}catch(e2){}}
 }
 
+function playBeep(frequency=440, duration=200){
+  try{
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    oscillator.frequency.value = frequency;
+    oscillator.type = 'square';
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + duration / 1000);
+  }catch(e){}
+}
+
 async function loadSave(){
   try{const r=await window.storage.get('ddong-save');if(r&&r.value)Object.assign(state,JSON.parse(r.value));}
   catch(e){try{const l=localStorage.getItem('ddong-save');if(l)Object.assign(state,JSON.parse(l));}catch(e2){}}
 }
 
+function resetSave(){
+  state={
+    ddong:0,totalDdong:0,level:1,xp:0,
+    clickPower:1,autoPerSec:0,_autoMult:1,_clickMult:1,_clickFlat:0,
+    gems:0,prestigeBonus:1,
+    upgrades:{},gemUpgrades:{},stagesCleared:{},
+    endingShown:false,gemTier:0,gemTierCount:0
+  };
+  localStorage.setItem('ddong-save',JSON.stringify(state));
+  alert("세이브가 리셋되었습니다.");
+  location.reload();
+}
+
+function validateSave(){
+  let isCheat=false;
+  if(state.ddong>1e20||state.totalDdong>1e20||state.gems>10000||state.level>100||state.clickPower>1e10||state.autoPerSec>1e10){
+    isCheat=true;
+  }
+  for(let id in state.upgrades){
+    const upg=UPGRADES.find(u=>u.id===id);
+    if(upg&&state.upgrades[id]>upg.maxLevel)isCheat=true;
+  }
+  for(let id in state.gemUpgrades){
+    const gem=GEM_ITEMS.find(g=>g.id===id)||BATTLE_GEM_ITEMS.find(g=>g.id===id);
+    if(gem&&state.gemUpgrades[id]>gem.maxLevel)isCheat=true;
+  }
+  if(Object.keys(state.stagesCleared).length>20)isCheat=true; // stagesCleared가 20개 이상이면 핵
+  if(isCheat){
+    alert("핵 사용이 감지되었습니다. 세이브를 리셋합니다.");
+    resetSave();
+  }
+}
+
 async function init(){
   await loadSave();
+  validateSave();
   if(!state.upgrades)state.upgrades={};
   if(!state.gemUpgrades)state.gemUpgrades={};
   if(!state.stagesCleared)state.stagesCleared={};
