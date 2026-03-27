@@ -419,13 +419,13 @@ let state={
 };
 
 const UPGRADES=[
-  {id:'click1',name:'변비 해소',  desc:'클릭당 +2 💩',  icon:'🍌',cost:10,   costMult:1.8,maxLevel:5, isAuto:false},
-  {id:'click2',name:'배탈 전문가',desc:'클릭당 +10 💩', icon:'🌶️',cost:100,  costMult:2.0,maxLevel:5, isAuto:false},
-  {id:'click3',name:'폭발적 방귀',desc:'클릭당 +50 💩', icon:'💨',cost:1000, costMult:2.2,maxLevel:5, isAuto:false},
-  {id:'auto1', name:'똥파리 고용',desc:'초당 +1 💩',    icon:'🪰',cost:15,   costMult:1.5,maxLevel:99,isAuto:true,perSec:1},
-  {id:'auto2', name:'화장실 설치',desc:'초당 +5 💩',    icon:'🚽',cost:120,  costMult:1.6,maxLevel:99,isAuto:true,perSec:5},
-  {id:'auto3', name:'똥 공장',    desc:'초당 +25 💩',   icon:'🏭',cost:1300, costMult:1.7,maxLevel:99,isAuto:true,perSec:25},
-  {id:'auto4', name:'우주 똥',    desc:'초당 +200 💩',  icon:'🚀',cost:15000,costMult:1.8,maxLevel:99,isAuto:true,perSec:200},
+  {id:'click1',name:'변비 해소',  desc:'클릭당 +5 💩',  icon:'🍌',cost:8,   costMult:1.6,maxLevel:5, isAuto:false},
+  {id:'click2',name:'배탈 전문가',desc:'클릭당 +25 💩', icon:'🌶️',cost:80,  costMult:1.8,maxLevel:5, isAuto:false},
+  {id:'click3',name:'폭발적 방귀',desc:'클릭당 +150 💩', icon:'💨',cost:800, costMult:2.0,maxLevel:5, isAuto:false},
+  {id:'auto1', name:'똥파리 고용',desc:'초당 +2 💩',    icon:'🪰',cost:12,   costMult:1.4,maxLevel:99,isAuto:true,perSec:2},
+  {id:'auto2', name:'화장실 설치',desc:'초당 +10 💩',    icon:'🚽',cost:90,  costMult:1.5,maxLevel:99,isAuto:true,perSec:10},
+  {id:'auto3', name:'똥 공장',    desc:'초당 +60 💩',   icon:'🏭',cost:1000, costMult:1.6,maxLevel:99,isAuto:true,perSec:60},
+  {id:'auto4', name:'우주 똥',    desc:'초당 +500 💩',  icon:'🚀',cost:12000,costMult:1.7,maxLevel:99,isAuto:true,perSec:500},
 ];
 
 const EVOLUTIONS=[
@@ -470,9 +470,9 @@ const STAGES=[
   {id:'s2',name:'방귀 유령',     icon:'👻',type:'ghost', hp:4000, atk:80, atkInterval:1800, reward:{ddong:20000,gems:7},desc:'HP 4,000  공격 80/1.8초'},
   {id:'s3',name:'하수구 악어',   icon:'🐊',type:'croc', hp:30000, atk:350, atkInterval:1600, reward:{ddong:200000,gems:22},desc:'HP 30,000  공격 350/1.6초'},
   {id:'s4',name:'화장실 보스',   icon:'🚿',type:'boss', hp:300000, atk:1500, atkInterval:1400, reward:{ddong:3000000,gems:70},desc:'HP 300,000  공격 1,500/1.4초'},
-  {id:'s5',name:'냄새 용왕',     icon:'🐉',type:'dragon', hp:3000000, atk:7000, atkInterval:1200, reward:{ddong:50000000,gems:250},desc:'HP 3,000,000  공격 7,000/1.2초'},
+  {id:'s5',name:'냄새 용왕',     icon:'🐉',type:'dragon', hp:2500000, atk:6000, atkInterval:1300, reward:{ddong:70000000,gems:300},desc:'HP 2,500,000  공격 6,000/1.3초'},
   /* 🛠️ 최종 스테이지: 신성한 변기 - 그냥 황금색 변기로 변경 (왕관 제거) */
-  {id:'s6',name:'신성한 변기',   icon:'🚽',type:'holy_toilet', hp:30000000,atk:20000,atkInterval:900,reward:{ddong:1000000000,gems:2000}, desc:'HP 30,000,000  공격 20,000/0.9초'},
+  {id:'s6',name:'신성한 변기',   icon:'🚽',type:'holy_toilet', hp:15000000,atk:15000,atkInterval:1000,reward:{ddong:1200000000,gems:3000}, desc:'HP 15,000,000  공격 15,000/1.0초'},
 ];
 
 const BATTLE_GEM_ITEMS=[
