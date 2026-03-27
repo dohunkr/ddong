@@ -574,6 +574,7 @@ function doPlayerAttack(e,isAuto){
 
 /* 🛠️ 똥 발사체 생성 및 애니메이션 함수 추가 */
 function spawnProjectile() {
+  playBeep(440, 150);
   const bf = document.getElementById('battle-field');
   const player = document.getElementById('bf-player-wrap');
   const enemy = document.getElementById('bf-enemy-wrap');
